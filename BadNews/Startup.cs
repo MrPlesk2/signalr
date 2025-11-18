@@ -1,4 +1,5 @@
 ﻿using BadNews.Elevation;
+using BadNews.Hubs;
 using BadNews.ModelBuilders.News;
 using BadNews.Repositories.Comments;
 using BadNews.Repositories.News;
@@ -41,6 +42,7 @@ namespace BadNews
                 options.EnableForHttps = true;
             });
             services.AddMemoryCache();
+            services.AddSignalR();
             services.AddScoped<CommentsRepository>();
             var mvcBuilder = services.AddControllersWithViews();
             if (env.IsDevelopment())
@@ -76,6 +78,7 @@ namespace BadNews
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<CommentsHub>("/commentsHub");
                 endpoints.MapControllerRoute("status-code", "StatusCode/{code?}", new
                 {
                     controller = "Errors",
@@ -87,6 +90,7 @@ namespace BadNews
             {
                 branchApp.UseDirectoryBrowser("/files");
             });
+
 
             // Остальные запросы — 404 Not Found
         }
