@@ -1,5 +1,6 @@
 ﻿using BadNews.Elevation;
 using BadNews.ModelBuilders.News;
+using BadNews.Repositories.Comments;
 using BadNews.Repositories.News;
 using BadNews.Repositories.Weather;
 using BadNews.Validation;
@@ -40,6 +41,7 @@ namespace BadNews
                 options.EnableForHttps = true;
             });
             services.AddMemoryCache();
+            services.AddScoped<CommentsRepository>();
             var mvcBuilder = services.AddControllersWithViews();
             if (env.IsDevelopment())
                 mvcBuilder.AddRazorRuntimeCompilation();
